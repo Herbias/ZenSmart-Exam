@@ -2,16 +2,19 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+.todo-list {
+  @apply relative m-auto min-h-full min-w-full;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
+.button,
+.done {
+  @apply rounded px-4 py-2;
+}
+
+.done {
+  @apply absolute inset-y-0 right-0 flex items-center justify-center;
+}
+
+.button--default {
+  @apply bg-blue-1 text-white hover:bg-blue-2 disabled:bg-blue-0;
 }
