@@ -1,15 +1,48 @@
+import { useState } from "react";
+import CreateModal from "../components/CreateModal";
+import { useModal } from "../components/Modal";
 import TodoItem from "../components/TodoItem";
-import MainLayout from "../layouts/MainLayout";
 
 const Home = () => {
+  const modal = useModal();
+  const [todoList, setTodoList] = useState([]);
+  const [taskName, setTaskName] = useState("");
+
+  const markAsDone = (todoId) => {
+    let task = todoList.find(({ id }) => id === todoId);
+    task["status"] = "Done";
+
+    setTodoList((todoList) => [...todoList]);
+  };
+
+  const createTask = () => {
+    let tempTodoList = todoList;
+    const newTask = { id: todoList.length + 1, name: taskName, status: null };
+    tempTodoList.push(newTask);
+    setTodoList(tempTodoList);
+    setTaskName("");
+    modal.onClose();
+  };
+
   return (
-    <MainLayout>
-      <TodoItem id={1} name="Test" status="Done" />
-      <TodoItem id={0} name="Test 2" />
-      <button className="button button--default fixed bottom-6 right-6">
-        Add
+    <>
+      {todoList.length > 0 ? (
+        todoList.map((props) => (
+          <TodoItem key={props.id} {...props} {...{ markAsDone }} />
+        ))
+      ) : (
+        <div className="text-center text-xl text-heading">
+          There is no task on the list!
+        </div>
+      )}
+      <button
+        onClick={() => modal.show()}
+        className="button button--default fixed bottom-6 right-6"
+      >
+        + Create task
       </button>
-    </MainLayout>
+      <CreateModal {...modal} {...{ createTask, taskName, setTaskName }} />
+    </>
   );
 };
 
